@@ -31,7 +31,9 @@
         <property name="dataSource" ref="dataSource" />
         <property name="typeAliasesPackage" value="com.koreait.spring" />
         <property name="mapperLocations" value="classpath:mapper/*.xml" /> <!-- resources/mapper 폴더 내의 모든 .xml 파일을 mapper 로 인식하겠당!! -->
+        <!-- Mapper.xml 파일을 찾아주는 아이!! -->
     </bean>
 
     <mybatis-spring:scan base-package="com.koreait.spring"/>
+    <!-- @mapper 어노테이션(자바인터페이스)을 찾아주는 아이 -->
 </beans>
