@@ -25,6 +25,9 @@
     <!-- 애노테이션으로 빈 등록할 클래스들을 스캔 뜨는 시작 패키지를 설정 -->
     <context:component-scan base-package="com.koreait.spring"/>
 
+    <!-- /res/ 의 주소로 들어오는 애는 dispatcher 가 안잡고 /res/폴더로 넘어가준다. -->
+    <mvc:resources mapping="/res/**" location="/res/"/>
+
     <!-- 사용할 파일명을 완성해주는 객체, prefix: 앞쪽에 , suffix: 뒤쪽에-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>

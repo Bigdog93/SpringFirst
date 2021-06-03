@@ -2,12 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.koreait.spring.user.UserMapper">
-    <insert id="insUser" parameterType="com.koreait.spring.user.UserEntity"> /* 메소드 이름 */
-        /* insert할 sql문 */
+    <insert id="insUser" parameterType="UserEntity"> /* 메소드 이름 */
+        /* insert 할 sql 문 */
         INSERT INTO t_user
         (uid, upw, unm, gender)
         VALUES
         (#{uid}, #{upw}, #{unm}, #{gender}) /* 얘네는 UserEntity 객체의 멤버필드명 */
         /* #: 문자형일 경우 알아서 "" 붙여줌. $: 문자든 숫자든 그대로 보내줌 and 연산도 가능 */
     </insert>
+
+    <select id="selUser" parameterType="UserEntity" resultType="UserEntity">
+        SELECT * FROM t_user
+        WHERE uid = #{uid}
+    </select>
 </mapper>
