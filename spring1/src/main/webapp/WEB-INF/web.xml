@@ -39,6 +39,7 @@
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
+        <!-- @WebServlet("/") 랑 같은거 -->
     </servlet-mapping>
 
     <!-- encoding filter -->

@@ -1,14 +1,14 @@
 package com.koreait.spring.user;
 
+import com.koreait.spring.board.BoardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller // 컨트롤러, 서비스, 컴포넌트 등등(빈등록하는 애들)
 // 빈 : 쉽게말해 스프링에서 관리하는 객체
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(UserEntity param) {
+    public String login(UserEntity param, HttpSession session) {
         return "redirect:" + service.login(param);
     }
 
@@ -57,8 +57,13 @@ public class UserController {
     @RequestMapping(value = "/join", method = RequestMethod.POST) // 원래는 이렇게 적어줘야 하지만, GET 은 기본값이라 안써줘도 됨
     public String join(UserEntity param) {
         // 날릴때 멤버필드명으로 이름만 맞춰주면 알아서 UserEntity 객체에 넣어서 보내줌(dispatcher 가)
-        System.out.println("uid : " + param);
         service.join(param);
         return "redirect:/user/login"; // 기존에 response.sendRedirect()와 같은 역할. (서블릿을 호출)
+    }
+
+    @RequestMapping("/detail")
+    public String detail(BoardDTO param) {
+        System.out.println("param : " + param);
+        return "";
     }
 }

@@ -9,4 +9,10 @@
         ORDER BY tb.iboard DESC
     </select>
 
+    <select id="selBoard" resultType="BoardDomain">
+        SELECT tb.title, tb.regdt, tb.iuser, tb.ctnt, tb.viewcnt, tu.unm AS writerNm, tu.profileImg
+        FROM t_board AS tb
+        LEFT JOIN t_user tu on tu.iuser = tb.iuser
+        WHERE iboard = #{iboard}
+    </select>
 </mapper>
