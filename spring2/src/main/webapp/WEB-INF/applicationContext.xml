@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://mybatis.org/schema/mybatis-spring
+        http://mybatis.org/schema/mybatis-spring-1.2.xsd">
+
+
+
+    <!--  Connection Pool 설정  -->
+    <context:property-placeholder location="classpath:application.properties" /> <!-- classpath : resources 폴더 -->
+    <context:component-scan base-package="com.koreait.spring2" />
+
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="driverClassName" value="${db.driver}" />
+        <property name="jdbcUrl" value="${db.host}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+    </bean>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig" />
+    </bean>
+
+    <!-- myBatis 에서 쓰는 애들 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.koreait.spring2" />  <!-- xml 에서 resultType 속성에 클래스 이름만 적어도 되는 세팅 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml" /> <!-- resources/mapper 폴더 내의 모든 .xml 파일을 mapper 로 인식하겠당!! -->
+        <!-- Mapper.xml 파일을 찾아주는 아이!! -->
+    </bean>
+
+    <!-- @Mapper 어노테이션(자바인터페이스)을 찾아주는 아이 -->
+    <mybatis-spring:scan base-package="com.koreait.spring2"/>
+
+</beans>

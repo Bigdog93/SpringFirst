@@ -13,7 +13,7 @@
 
 <h1>${ data.title }</h1>
 <div>
-    <c:out value="${ data.ctnt }" /> <!-- 스크립트 실행문이 아니라 그 결과(내용)이 나온다. -->
+    <c:out value="${ data.ctnt }" /> <!-- 스크립트 실행문이 아니라 그 결과(내용)가 나온다. -->
 </div>
 <div>글쓴이 : ${ data.writerNm }</div>
 <div>작성일시 : ${ data.regdt }</div>

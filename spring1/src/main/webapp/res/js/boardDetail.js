@@ -15,10 +15,16 @@ function regCmt() {
 function regAjax(param) {
     const init = {
         method: 'POST',
-        body: JSON.stringify(param)
+        body: JSON.stringify(param),
+        /* JSON.stringify(param) : JSON 형태로 변환 하여 보내는 방법. JSP 에서 쓰려면 40줄 정도 써야됨..ㄷㄷ 스프링이 대신 해준다. */
+        /* new URLSearchParams(param) JSP 에서 간단하게 getParameter 로 받을 수 있는 방법(JSON 형태 아님) */
+        headers:{ /* json 형태로 날린다는걸 알려주는 부분 */
+            'accept':'application/json',
+            'content-type':'application/json;charset=UTF-8'
+        }
     }; // init 은 설정해주는것.
 
-    fetch('cmtInsSel', init)
+    fetch('cmtIns', init)
         .then(function (res) {
             return res.json();
         })
@@ -43,7 +49,7 @@ function getListAjax() {
     var iboard = cmtListElem.dataset.iboard;
     // data-ibaord="" 로 jsp 에서 설정해준 속성값을 가져오는 방법
     // init 없이 쓰면 자동으로 GET 방식이다.
-    fetch('cmtInsSel?iboard=' + iboard)
+    fetch('cmtSel?iboard=' + iboard)
         .then(function (res) {
             return res.json(); // String 을 객체로 만들어준다.(String 자체가 JSON 형태로 날아오기 때문에 가능)
         }).then(function (myJson) {
@@ -55,6 +61,13 @@ function getListAjax() {
 function makeCmtElemList(data) {
 
     cmtListElem.innerHTML = ''; // 만들기 전에 기존에 있던거 싹 지워주기
+    /*
+    cmtListElem.innerText = ''; // 태그를 &lt &gt 로 바꿔줌. (javascript 문이 실행 안됨.) (태그가 안먹힘)
+    cmtListElem.append(''); // 뒷부분에 추가
+    cmtListElem.prepend(''); // 앞부분에 추가
+    cmtListElem.appendChild('') ;; // 노드 객체의 주소값을 넣어야 한다.(div 나 span 이라 부흐는 애들)
+     */
+
     var tableElem = document.createElement('table'); // 메모리상에 <table></table>이 들어간다. a, span, div 다 가능
     var trElemTitle = document.createElement('tr');
     var thElemCtnt = document.createElement('th');
@@ -80,6 +93,8 @@ function makeCmtElemList(data) {
     // 그리고 가져올때 문자열로 가져옴
 
     data.forEach(function (item) { // forEach : 배열객체가 가지고 있는 함수. data(배열자료) 안에 있는 아이템 수 만큼 function 안에 아이템을 넣어서 반복해준다.
+        // for 문은 동기
+
         var trElemItem = document.createElement('tr');
         var tdElemCmt = document.createElement('td');
         var tdElemUnm = document.createElement('td');

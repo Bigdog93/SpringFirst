@@ -11,7 +11,7 @@ public class BoardCmtEntity {
     private int icmt;
     private int iuser;
     private int iboard;
-    private String ctnt;
+    private String cmt;
     private String regdt;
     private int likecnt;
     private int dislike;
