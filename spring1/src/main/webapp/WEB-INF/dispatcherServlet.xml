@@ -27,6 +27,8 @@
 
     <!-- /res/ 의 주소로 들어오는 애는 dispatcher 가 안잡고 /res/폴더로 넘어가준다. -->
     <mvc:resources mapping="/res/**" location="/res/"/>
+    <!-- /img/ 로 접근하는 애들을 실제 파일 경로로 mapping 해준다. -->
+    <mvc:resources mapping="/img/**" location="file:///C:/SpringRes/"/>
 
     <!-- 사용할 파일명을 완성해주는 객체, prefix: 앞쪽에 , suffix: 뒤쪽에-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

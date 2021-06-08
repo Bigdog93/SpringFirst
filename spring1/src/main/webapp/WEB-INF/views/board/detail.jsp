@@ -6,6 +6,7 @@
     <title>detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/res/css/boardDetail.css">
+    <link rel="stylesheet" href="/res/css/common.css">
     <script defer src="/res/js/boardDetail.js"></script> <!-- <태그/>는 xml 문법 -->
     <script defer src="/res/js/common.js"></script>
 </head>
@@ -34,5 +35,16 @@
 </c:if>
 <div id="cmtList" data-login-user-pk="${sessionScope.loginUser.iuser}" data-iboard="${param.iboard}"></div>
                 <!-- 이렇게 하면 js 에서 loginUserPk로 받는다. -->
+
+<div id="modal" class="displayNone">
+    <div class="modal_content">
+        <form id="cmtModFrm" onsubmit="return false;">
+            <input type="hidden" id="icmt">
+            <input type="text" id="modCmt">
+        </form>
+        <input type="button" value="댓글 수정" onclick="modAjax();">
+        <input type="button" value="취소" onclick="closeModModal();">
+    </div>
+</div>
 </body>
 </html>

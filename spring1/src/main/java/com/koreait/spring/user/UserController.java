@@ -4,9 +4,11 @@ import com.koreait.spring.board.BoardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -65,5 +67,16 @@ public class UserController {
     public String detail(BoardDTO param) {
         System.out.println("param : " + param);
         return "";
+    }
+
+    @RequestMapping("/profile")
+    public String profile() {
+        return "user/profile";
+    }
+
+//    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    @PostMapping("/profile")
+    public String profile(@RequestParam("profileImg") MultipartFile profileImg) { // type 이 file 인 input 의 value 는 MultipartFile 로 간다.(변수명과 jsp 에서 name 이랑 맞춰줘야 한다.)
+        return "redirect:" + service.updProfile(profileImg);
     }
 }

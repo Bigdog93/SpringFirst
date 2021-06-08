@@ -5,7 +5,7 @@ section {padding-left: 40px; padding-right: 40px;}
 
 .navigation {
 	height: 50px;
-	background-color: #3498db;
+	background-color: #939aff;
 }
 
 .navigation ul {
@@ -20,4 +20,8 @@ section {padding-left: 40px; padding-right: 40px;}
 
 .colorRed { color : red; }
 
-.displayNone {display: none !important; }
+.displayNone {
+	display: none !important;
+	/* visibility: hidden 도 있음 얘는 자리는 차지함 */
+}
+

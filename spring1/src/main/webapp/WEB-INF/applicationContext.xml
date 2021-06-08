@@ -36,4 +36,9 @@
 
     <mybatis-spring:scan base-package="com.koreait.spring"/>
     <!-- @mapper 어노테이션(자바인터페이스)을 찾아주는 아이 -->
+
+    <!-- 파일 업로드 해주는 친구 빈 등록 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"></property>
+    </bean>
 </beans>

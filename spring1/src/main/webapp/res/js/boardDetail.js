@@ -24,7 +24,8 @@ function regAjax(param) {
         }
     }; // init 은 설정해주는것.
 
-    fetch('cmtIns', init)
+    // RESTful POST 방식
+    fetch('cmt', init)
         .then(function (res) {
             return res.json();
         })
@@ -49,7 +50,8 @@ function getListAjax() {
     var iboard = cmtListElem.dataset.iboard;
     // data-ibaord="" 로 jsp 에서 설정해준 속성값을 가져오는 방법
     // init 없이 쓰면 자동으로 GET 방식이다.
-    fetch('cmtSel?iboard=' + iboard)
+    /* fetch('cmtSel?iboard=' + iboard) */
+    fetch('cmt/' + iboard) // RESTful 방식 GET
         .then(function (res) {
             return res.json(); // String 을 객체로 만들어준다.(String 자체가 JSON 형태로 날아오기 때문에 가능)
         }).then(function (myJson) {
@@ -105,13 +107,14 @@ function makeCmtElemList(data) {
         tdElemUnm.append(item.writerNm);
         tdElemRegdt.append(item.regdt);
 
-        if (loginUserPk == item.iuser) {
+        // HTML 에는 숫자 자료라는 개념이 없다. 넘어올때도 문자열로 넘어오기 때문에, parseInt()로 형변환해줘야 === 비교 가능
+        if (parseInt(loginUserPk) === item.iuser) {
             var delBtn = document.createElement('button');
             var modBtn = document.createElement('button');
 
             // 삭제 버튼 클릭시
             delBtn.addEventListener('click', function () {
-                if (confirm('삭제하시겠습니까?')) {
+                if (confirm('삭제하시겠습니까?')) { // js 에서는 빈 문자열(''), 숫자 0은 false 로 간주한다.
                     delAjax(item.icmt);
                 }
             });
@@ -139,7 +142,11 @@ function makeCmtElemList(data) {
 }
 
 function delAjax(icmt) {
-    fetch('cmtDelUpd?icmt=' + icmt)
+    const init = {
+        method:'DELETE'
+    }
+    /*fetch('cmtDelUpd?icmt=' + icmt)*/
+    fetch('cmt/' + icmt, init)
         .then(function (res) {
             return res.json();
         })
@@ -160,7 +167,7 @@ function delAjax(icmt) {
 function openModModal({icmt, cmt}) { // 파라미터를 이렇게 해놓으면 객체를 넘겼을때 그 객체중 받고 싶은 멤버필드만 받아 저장한다.
     var cmtModFrmElem = document.querySelector('#cmtModFrm');
     cmtModFrmElem.icmt.value = icmt;
-    cmtModFrmElem.cmt.value = cmt;
+    cmtModFrmElem.modCmt.value = cmt;
     cmtModModalElem.className = '';
 }
 
@@ -172,13 +179,17 @@ function modAjax() {
     var cmtModFrmElem = document.querySelector('#cmtModFrm');
     var param = {
         icmt: cmtModFrmElem.icmt.value,
-        cmt: cmtModFrmElem.cmt.value
+        cmt: cmtModFrmElem.modCmt.value
     }
     const init = {
-        method: 'POST',
-        body: new URLSearchParams(param)
+        method: 'PUT',
+        body: JSON.stringify(param),
+        headers: {
+            'accept':'application/json',
+            'content-type':'application/json;charset=UTF-8'
+        }
     }
-    fetch('cmtDelUpd', init)
+    fetch('cmt', init)
         .then(function (res) {
             return res.json();
         })

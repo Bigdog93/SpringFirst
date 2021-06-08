@@ -10,6 +10,9 @@
 </head>
 <body>
 <h1>리스트</h1>
+<c:if test="${not empty sessionScope.loginUser}">
+    <a href="/user/profile">프로필</a>
+</c:if>
 <table>
     <tr>
         <th>번호</th>

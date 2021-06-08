@@ -16,4 +16,14 @@
         WHERE iboard = #{iboard}
     </select>
 
+    <update id="updBoardCmt">
+        UPDATE t_board_cmt
+        SET cmt = #{cmt}, regdt = NOW()
+        WHERE iuser = #{iuser} AND icmt = #{icmt}
+    </update>
+
+    <delete id="delBoardCmt" parameterType="BoardCmtEntity">
+        DELETE FROM t_board_cmt
+        WHERE icmt = #{icmt} AND iuser = #{iuser}
+    </delete>
 </mapper>
