@@ -1,6 +1,6 @@
 package com.koreait.spring.board;
 
-import com.koreait.spring.user.UserEntity;
+import com.koreait.spring.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +19,9 @@ public class BoardService {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private MyUtils myUtils;
+
     public List<BoardDomain> selBoardList() {
         return mapper.selBoardList();
     }
@@ -28,8 +31,7 @@ public class BoardService {
     }
 
     public int insBoardCmt(BoardCmtEntity param) {
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        param.setIuser(loginUser.getIuser());
+        param.setIuser(myUtils.getLoginUserPk());
         return cmtMapper.insBoardCmt(param);
     }
 
@@ -38,21 +40,17 @@ public class BoardService {
     }
 
     public int delBoardCmt(BoardCmtEntity param) {
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        int loginUserPk = loginUser.getIuser();
-        param.setIuser(loginUserPk);
+        param.setIuser(myUtils.getLoginUserPk());
         return cmtMapper.delBoardCmt(param);
     }
 
     public int updBoardCmt(BoardCmtEntity param) {
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        param.setIuser(loginUser.getIuser());
+        param.setIuser(myUtils.getLoginUserPk());
         return cmtMapper.updBoardCmt(param);
     }
 
     public int insBoard(BoardEntity param) {
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        param.setIuser(loginUser.getIuser());
+        param.setIuser(myUtils.getLoginUserPk());
 
         if(param.getIboard() == 0) {
             //등록
@@ -65,8 +63,7 @@ public class BoardService {
     }
 
     public int delBoard(BoardEntity param) {
-        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
-        param.setIuser(loginUser.getIuser());
+        param.setIuser(myUtils.getLoginUserPk());
         return mapper.delBoard(param);
     }
 }

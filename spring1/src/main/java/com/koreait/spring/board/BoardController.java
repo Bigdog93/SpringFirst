@@ -1,5 +1,6 @@
 package com.koreait.spring.board;
 
+import com.koreait.spring.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,14 @@ public class BoardController {
     @Autowired
     private BoardService service;
 
+    @Autowired
+    private MyUtils myUtils;
+
     @RequestMapping("/list")
     public String list(Model model) {
         List<BoardDomain> list = service.selBoardList();
         model.addAttribute("list", list);
+        myUtils.setTitle("주's 게시판", model);
         return "board/list";
     }
 
@@ -27,6 +32,7 @@ public class BoardController {
     public String detail(BoardDTO param, Model model) {
         BoardDomain data = service.selBoard(param);
         model.addAttribute("data", data);
+        myUtils.setTitle(data.getTitle(), model);
         return "board/detail";
     }
 
@@ -72,8 +78,12 @@ public class BoardController {
     @GetMapping("/write")
     public String insBoard(BoardDTO param, Model model) {
         if(param.getIboard() != 0) {
-            model.addAttribute("data", service.selBoard(param));
+            // 글 수정
+            BoardDomain data = service.selBoard(param);
+            model.addAttribute("data", data);
+            myUtils.setTitle(data.getTitle(), model);
         }
+        myUtils.setTitle("글쓰기", model);
         return "board/write";
     }
 

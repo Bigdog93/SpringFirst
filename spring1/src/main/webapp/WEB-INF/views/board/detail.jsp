@@ -11,8 +11,17 @@
     <script defer src="/res/js/common.js"></script>
 </head>
 <body>
+<c:choose>
+    <c:when test="${empty i.profileImg }">
+        <c:set var="img" value="/res/img/defaultprofile.jpg"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="img"
+               value="/img/user/${i.iuser}/${i.profileImg}"/>
+    </c:otherwise>
+</c:choose>
 
-<h1>${ data.title }</h1>
+<h1>${ data.title }<i id="likeIcon" class="far fa-heart pointer"></i></h1>
 <div>
     <c:out value="${ data.ctnt }" /> <!-- 스크립트 실행문이 아니라 그 결과(내용)가 나온다. -->
 </div>

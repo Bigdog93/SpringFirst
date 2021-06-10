@@ -26,3 +26,10 @@ section {padding-left: 40px; padding-right: 40px;}
 	/* visibility: hidden 도 있음 얘는 자리는 차지함 */
 }
 
+.fas {
+	color:tomato;
+}
+.far {
+	color: darkgray;
+}
+.pointer { cursor: pointer;}

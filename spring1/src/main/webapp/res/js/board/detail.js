@@ -1,6 +1,8 @@
 var cmtFrmElem = document.querySelector('#cmtFrm');
 var cmtListElem = document.querySelector('#cmtList');
 var cmtModModalElem = document.querySelector('#modal');
+var likeIconElem = document.querySelector('#likeIcon');
+
 
 function regCmt() {
     var cmtVal = cmtFrmElem.cmt.value;
@@ -82,7 +84,6 @@ function makeCmtElemList(data) {
     thElemRegdt.innerText = '작성일';
     thElemBigo.innerText = '비고';
 
-    var cTagElem = document.createElement()
 
     trElemTitle.append(thElemCtnt); // 각각 따로 있는 태그들을 넣어주는거 (th를 tr 태그 안으로)
     trElemTitle.append(thElemWriter); // 자식을 가질 수 없는 태그는 안됨
@@ -104,6 +105,9 @@ function makeCmtElemList(data) {
         var tdElemUnm = document.createElement('td');
         var tdElemRegdt = document.createElement('td');
         var tdElemBigo = document.createElement('td');
+        var imgElemProfileImg = document.createElement('img');
+        imgElemProfileImg.src = '${img}';
+        imgElemProfileImg.className = 'profileImg';
 
         tdElemCmt.append(item.cmt);
         tdElemUnm.append(item.writerNm);
@@ -137,6 +141,7 @@ function makeCmtElemList(data) {
         trElemItem.append(tdElemUnm);
         trElemItem.append(tdElemRegdt);
         trElemItem.append(tdElemBigo);
+        tdElemUnm.append(imgElemProfileImg);
 
         tableElem.append(trElemItem);
     })
@@ -206,14 +211,53 @@ function modAjax() {
 }
 
 getListAjax(); // 이 파일이 임포트 되면 함수 1회 호출
-
+getLikeAjax();
+likeIconElem.addEventListener('click', function () {
+    var iboard = cmtListElem.dataset.iboard;
+    var param = {
+        iboard
+    }
+    if(likeIconElem.classList.contains('far')) {
+        slapLikeAjax(param);
+    } else {
+        undoLikeAjax(param);
+    }
+})
 
 // 좋아요 싫어요 작업중..
+function getLikeAjax() {
+    var iboard = cmtListElem.dataset.iboard;
+    fetch("like?iboard=" + iboard)
+        .then(function (res) { return res.json();})
+        .then(function (myjson) {
+            switch (myjson.result) {
+                case 0:
+                    likeIconElem.classList.remove('fas');
+                    likeIconElem.classList.add('far');
+                    break;
+                case 1:
+                    likeIconElem.classList.remove('far');
+                    likeIconElem.classList.add('fas');
+                    break;
+            }
+        })
+}
+
+function toggleLike(toggle) {
+    if(toggle == 0) {
+        likeIconElem.classList.remove('fas');
+        likeIconElem.classList.add('far');
+    }else if(toggle == 1) {
+        likeIconElem.classList.remove('far');
+        likeIconElem.classList.add('fas');
+    }
+}
+
+
+
 function slapLike(iboard) {
-    var likeElem = document.querySelector('#likeIcon');
     var loginUserPk = cmtListElem.dataset.login_user_pk;
     var param = {
-        likeElem,
         iboard,
         loginUserPk
     }
@@ -221,5 +265,47 @@ function slapLike(iboard) {
 }
 
 function slapLikeAjax(param) {
+    const init = {
+        method: 'POST',
+        body: JSON.stringify(param),
+        headers:{
+            'accept':'application/json',
+            'content-type':'application/json;charset=UTF-8'
+        }
+    }
+    fetch("like", init)
+        .then(function (res) { return res.json()})
+        .then(function (myjson) {
+            switch (myjson.result) {
+                case 0:
+                    alert('오류 발생');
+                    break;
+                case 1:
+                    toggleLike(1);
+                    getLikeAjax();
+                    break;
+            }
+        })
+}
 
+function undoLikeAjax(param) {
+    const init = {
+        method: 'DELETE',
+        body: JSON.stringify(param),
+        headers: {
+            'content-type':'application/json;charset=UTF-8'
+        }
+    }
+    fetch('like', init)
+        .then(function (res) { return res.json()})
+        .then(function (myjson) {
+            switch (myjson.result) {
+                case 0:
+                    break;
+                case 1:
+                    toggleLike(0);
+                    getLikeAjax();
+                    break;
+            }
+        })
 }

@@ -1,6 +1,6 @@
 package com.koreait.spring.user;
 
-import com.koreait.spring.board.BoardDTO;
+import com.koreait.spring.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +23,9 @@ public class UserController {
     // @Service("아이디값") 으로 해당 Bean 등록할 클래스에 아이디 값을 부여 할 수 있다.
     private UserService service;
 
+    @Autowired
+    private MyUtils myUtils;
+
     @RequestMapping(value="/login", method= RequestMethod.GET) // 원래는 이렇게 적어줘야 하지만, GET 은 기본값이라 안써줘도 됨
     public String login(@RequestParam(value = "err", required = false, defaultValue = "0") int err, Model model) { // 파일경로와 서블렛경로가 같을 경우, void 가능
         // @RequestParam("Key") int value : int value = request.getParameter("Key"); (정수타입이면 알아서 변환), 없거나 int 가 아니면 에러남..
@@ -37,7 +40,7 @@ public class UserController {
                 model.addAttribute("errMsg", "비밀번호를 확인해 주세요.");
                 break;
         }
-
+        myUtils.setTitle("로그인",model);
         return "user/login"; // 기본 디스패쳐 방식
         // 세팅해준 디스패쳐서블릿이 주소창에 쓰인 주소값으로 이 메소드(login())를 찾아 실행후,
         // prefix 값 + return 해준 String 값 + suffix 값 해서 request.getDispatch.forward(req,res) 해준다.
@@ -50,7 +53,8 @@ public class UserController {
     }
 
     @RequestMapping("/join")
-    public String join() {
+    public String join(Model model) {
+        myUtils.setTitle("회원가입", model);
         return "user/join";
     }
 
@@ -61,14 +65,10 @@ public class UserController {
         return "redirect:/user/login"; // 기존에 response.sendRedirect()와 같은 역할. (서블릿을 호출)
     }
 
-    @RequestMapping("/detail")
-    public String detail(BoardDTO param) {
-        System.out.println("param : " + param);
-        return "";
-    }
-
     @GetMapping("/profile")
-    public void profile() { }  // 파일경로와 서블렛경로가 같을 경우, void 가능
+    public void profile(Model model) {
+        
+    }  // 파일경로와 서블렛경로가 같을 경우, void 가능
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     @PostMapping("/profile")
