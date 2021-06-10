@@ -63,4 +63,10 @@ public class BoardService {
         }
         return param.getIboard();
     }
+
+    public int delBoard(BoardEntity param) {
+        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
+        param.setIuser(loginUser.getIuser());
+        return mapper.delBoard(param);
+    }
 }

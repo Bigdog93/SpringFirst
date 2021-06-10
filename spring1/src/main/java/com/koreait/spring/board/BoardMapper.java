@@ -11,4 +11,5 @@ public interface BoardMapper {
     int insBoard(BoardEntity param);
     int selLastBoardPk();
     int updBoard(BoardEntity param);
+    int delBoard(BoardEntity param);
 }

@@ -81,4 +81,10 @@ public class BoardController {
     public String insBoard(BoardEntity param) {
             return "redirect:/board/detail?iboard=" + service.insBoard(param);
     }
+
+    @GetMapping("/delete")
+    public String delBoard(BoardEntity param) {
+        service.delBoard(param);
+        return "redirect:/board/list";
+    }
 }
