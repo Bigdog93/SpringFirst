@@ -4,12 +4,10 @@ import com.koreait.spring.board.BoardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller // 컨트롤러, 서비스, 컴포넌트 등등(빈등록하는 애들)
@@ -26,7 +24,7 @@ public class UserController {
     private UserService service;
 
     @RequestMapping(value="/login", method= RequestMethod.GET) // 원래는 이렇게 적어줘야 하지만, GET 은 기본값이라 안써줘도 됨
-    public String login(@RequestParam(value = "err", required = false, defaultValue = "0") int err, Model model) {
+    public String login(@RequestParam(value = "err", required = false, defaultValue = "0") int err, Model model) { // 파일경로와 서블렛경로가 같을 경우, void 가능
         // @RequestParam("Key") int value : int value = request.getParameter("Key"); (정수타입이면 알아서 변환), 없거나 int 가 아니면 에러남..
         // required = false 를 주면 값이 들어가야 하는 강제성 없어짐(int 라면 null 이라 에러는 터짐, 그래서 defaultValue 로 0 주면 됨)
         // Model model : request 에 담아주는 애
@@ -69,14 +67,22 @@ public class UserController {
         return "";
     }
 
-    @RequestMapping("/profile")
-    public String profile() {
-        return "user/profile";
-    }
+    @GetMapping("/profile")
+    public void profile() { }  // 파일경로와 서블렛경로가 같을 경우, void 가능
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     @PostMapping("/profile")
     public String profile(@RequestParam("profileImg") MultipartFile profileImg) { // type 이 file 인 input 의 value 는 MultipartFile 로 간다.(변수명과 jsp 에서 name 이랑 맞춰줘야 한다.)
         return "redirect:" + service.updProfile(profileImg);
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, HttpServletRequest request) {
+        session.invalidate();
+        String referer = request.getHeader("Referer");
+        if(referer.contains("user/profile")) {
+            return "redirect:/user/login";
+        }
+        return "redirect:" + referer;
     }
 }

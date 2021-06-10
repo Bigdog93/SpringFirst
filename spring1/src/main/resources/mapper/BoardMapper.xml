@@ -10,9 +10,25 @@
     </select>
 
     <select id="selBoard" resultType="BoardDomain">
-        SELECT tb.title, tb.regdt, tb.iuser, tb.ctnt, tb.viewcnt, tu.unm AS writerNm, tu.profileImg
+        SELECT tb.title, tb.regdt, tb.iuser, tb.iboard, tb.ctnt, tb.viewcnt, tu.unm AS writerNm, tu.profileImg
         FROM t_board AS tb
         LEFT JOIN t_user tu on tu.iuser = tb.iuser
         WHERE iboard = #{iboard}
     </select>
+
+    <insert id="insBoard" useGeneratedKeys="true" keyProperty="iboard"> /* 인서트한 후 바로 iboard 를 매개변수객체의 멤버필드에 담아줌 */
+        INSERT INTO t_board
+        (title, ctnt, iuser)
+        VALUES
+        (#{title}, #{ctnt}, #{iuser})
+    </insert>
+    <select id="selLastBoardPk" resultType="Integer">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <update id="updBoard">
+        UPDATE t_board
+        SET ctnt = #{ctnt}, title = #{title}
+        WHERE iboard = #{iboard}
+    </update>
 </mapper>

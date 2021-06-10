@@ -3,16 +3,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/res/css/boardList.css">
+    <link rel="stylesheet" href="/res/css/board/list.css">
     <link rel="stylesheet" href="/res/css/common.css">
-    <script defer src="/res/js/boardList.js"></script>
+    <script defer src="/res/js/board/list.js"></script>
     <title>List</title>
 </head>
 <body>
 <h1>리스트</h1>
-<c:if test="${not empty sessionScope.loginUser}">
-    <a href="/user/profile">프로필</a>
-</c:if>
 <table>
     <tr>
         <th>번호</th>
@@ -37,7 +34,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:set var="img"
-                           value="/res/img/user/${i.iuser}/${i.profileImg}"/>
+                           value="/img/user/${i.iuser}/${i.profileImg}"/>
                 </c:otherwise>
             </c:choose>
             <td>

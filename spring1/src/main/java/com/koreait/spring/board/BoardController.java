@@ -68,4 +68,17 @@ public class BoardController {
         result.put("result", service.delBoardCmt(param));
         return result;
     }
+
+    @GetMapping("/write")
+    public String insBoard(BoardDTO param, Model model) {
+        if(param.getIboard() != 0) {
+            model.addAttribute("data", service.selBoard(param));
+        }
+        return "board/write";
+    }
+
+    @PostMapping("/write")
+    public String insBoard(BoardEntity param) {
+            return "redirect:/board/detail?iboard=" + service.insBoard(param);
+    }
 }

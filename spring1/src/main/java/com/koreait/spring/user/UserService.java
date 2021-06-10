@@ -54,7 +54,13 @@ public class UserService {
         File target = new File(PATH + "/" + fileNm);
 
         try {
-            img.transferTo(target);
+            img.transferTo(target); // 메모리상에 있는 파일(img)을 원하는 디렉토리로 옮기기(그 디렉토리로 File 객체 만들어서)
+
+            // 이전 이미지 삭제
+            File delFile = new File(PATH + "/" + loginUser.getProfileImg());
+            if(delFile.exists()) {
+                delFile.delete();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

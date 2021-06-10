@@ -49,4 +49,18 @@ public class BoardService {
         param.setIuser(loginUser.getIuser());
         return cmtMapper.updBoardCmt(param);
     }
+
+    public int insBoard(BoardEntity param) {
+        UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
+        param.setIuser(loginUser.getIuser());
+
+        if(param.getIboard() == 0) {
+            //등록
+            mapper.insBoard(param);
+        }else {
+            //수정
+            mapper.updBoard(param);
+        }
+        return param.getIboard();
+    }
 }

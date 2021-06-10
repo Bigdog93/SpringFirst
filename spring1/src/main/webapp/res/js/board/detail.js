@@ -82,6 +82,8 @@ function makeCmtElemList(data) {
     thElemRegdt.innerText = '작성일';
     thElemBigo.innerText = '비고';
 
+    var cTagElem = document.createElement()
+
     trElemTitle.append(thElemCtnt); // 각각 따로 있는 태그들을 넣어주는거 (th를 tr 태그 안으로)
     trElemTitle.append(thElemWriter); // 자식을 가질 수 없는 태그는 안됨
     trElemTitle.append(thElemRegdt); // append 는 순서대로 뒤에 넣어줌 prepend 는 앞쪽에 넣어줌(노래방 우선 예약)

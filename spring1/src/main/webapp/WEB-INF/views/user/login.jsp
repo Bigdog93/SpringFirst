@@ -6,11 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
+
 <div>로그인</div>
 <div>${requestScope.errMsg}</div>
 <form action="login" method="post">
@@ -20,9 +16,4 @@
         <input type="submit" value="login">
     </div>
 </form>
-<div>
-    <a href="join">join</a>
-</div>
-</form>
-</body>
-</html>
+

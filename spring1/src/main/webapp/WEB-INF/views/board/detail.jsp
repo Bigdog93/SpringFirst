@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/res/css/boardDetail.css">
+    <link rel="stylesheet" href="/res/css/board/detail.css">
     <link rel="stylesheet" href="/res/css/common.css">
-    <script defer src="/res/js/boardDetail.js"></script> <!-- <태그/>는 xml 문법 -->
+    <script defer src="/res/js/board/detail.js"></script> <!-- <태그/>는 xml 문법 -->
     <script defer src="/res/js/common.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
 <button onclick="goBack()">목록</button>
 <c:if test="${sessionScope.loginUser.iuser == data.iuser}">
     <div>
-        <a href="modify?iboard=${ data.iboard }"><button>수정</button></a>
+        <a href="write?iboard=${ data.iboard }"><button>수정</button></a>
         <a href="delete?iboard=${ data.iboard }"><button>삭제</button></a>
     </div>
 </c:if>
