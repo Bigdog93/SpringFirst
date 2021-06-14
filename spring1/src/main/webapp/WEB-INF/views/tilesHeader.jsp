@@ -12,6 +12,7 @@
                 <li><a href="/user/logout">로그아웃</a></li>
                 <li><a href="/user/profile">프로필</a></li>
                 <li><a href="/board/write">글쓰기</a></li>
+                <li><a href="/board/likeList">좋아요</a></li>
             </c:otherwise>
         </c:choose>
         <li><a href="/board/list">게시판</a></li>

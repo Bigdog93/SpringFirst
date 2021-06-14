@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.record {
+    cursor : pointer;
+}
+.record:hover {background-color: gray;}
+
+.profileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.selected {
+    color: #01023e;
+    font-weight: bold;
+}
+
+.unselected:hover {
+    cursor: pointer;
+}

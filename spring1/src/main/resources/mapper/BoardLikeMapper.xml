@@ -5,7 +5,8 @@
 <mapper namespace="com.koreait.spring.board.BoardLikeMapper">
     <insert id="insBoardLike">
         INSERT INTO t_board_like
-        (iuser, iboard) VALUES (#{iuser}, #{iboard})
+        (iuser, iboard)
+        VALUES (#{iuser}, #{iboard})
     </insert>
 
     <select id="selBoardLike" resultType="_int">

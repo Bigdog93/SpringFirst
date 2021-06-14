@@ -1,25 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head>
+<%--<head>
     <meta charset="UTF-8">
     <title>detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/res/css/board/detail.css">
     <link rel="stylesheet" href="/res/css/common.css">
-    <script defer src="/res/js/board/detail.js"></script> <!-- <태그/>는 xml 문법 -->
+   &lt;%&ndash; <script defer src="/res/js/board/detail.js"></script> <!-- <태그/>는 xml 문법 -->&ndash;%&gt;
     <script defer src="/res/js/common.js"></script>
-</head>
+</head>--%>
 <body>
-<c:choose>
-    <c:when test="${empty i.profileImg }">
-        <c:set var="img" value="/res/img/defaultprofile.jpg"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="img"
-               value="/img/user/${i.iuser}/${i.profileImg}"/>
-    </c:otherwise>
-</c:choose>
+
 
 <h1>${ data.title }<i id="likeIcon" class="far fa-heart pointer"></i></h1>
 <div>
@@ -42,7 +34,7 @@
         </form>
     </div>
 </c:if>
-<div id="cmtList" data-login-user-pk="${sessionScope.loginUser.iuser}" data-iboard="${param.iboard}"></div>
+<div id="cmtList" data-login-user-pk="${sessionScope.loginUser.iuser == null ? 0 : sessionScope.loginUser.iuser}" data-iboard="${param.iboard}"></div>
                 <!-- 이렇게 하면 js 에서 loginUserPk로 받는다. -->
 
 <div id="modal" class="displayNone">

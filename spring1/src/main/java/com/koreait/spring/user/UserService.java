@@ -42,19 +42,19 @@ public class UserService {
     public String updProfile(MultipartFile img) {
         UserEntity loginUser = (UserEntity) session.getAttribute("loginUser");
         int loginUserPk = loginUser.getIuser();
-        final String PATH = "C:/SpringRes/user/" + loginUser.getIuser();
+        final String PATH = "C:/SpringRes/user/" + loginUser.getIuser(); // 리소스 폴더 내 유저 pk 로 경로 설정
 
-        File folder = new File(PATH);
-        folder.mkdirs();
+        File folder = new File(PATH); // 그 경로로 파일 객체 생성
+        folder.mkdirs(); // 경로 생성
 
 
         String ext = FilenameUtils.getExtension(img.getOriginalFilename()); // 업로드된 파일의 원래 이름의 확장자 얻어오기!!
         String fileNm = UUID.randomUUID().toString() + "." + ext; // 랜덤한 파일명 생성
 
-        File target = new File(PATH + "/" + fileNm);
+        File target = new File(PATH + "/" + fileNm); // 경로 내에 파일 이름으로 파일 객체 생성
 
         try {
-            img.transferTo(target); // 메모리상에 있는 파일(img)을 원하는 디렉토리로 옮기기(그 디렉토리로 File 객체 만들어서)
+            img.transferTo(target); // 메모리상에 있는 파일(img)을 원하는 디렉토리로 옮기기
 
             // 이전 이미지 삭제
             File delFile = new File(PATH + "/" + loginUser.getProfileImg());

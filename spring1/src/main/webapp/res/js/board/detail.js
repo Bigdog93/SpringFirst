@@ -2,7 +2,17 @@ var cmtFrmElem = document.querySelector('#cmtFrm');
 var cmtListElem = document.querySelector('#cmtList');
 var cmtModModalElem = document.querySelector('#modal');
 var likeIconElem = document.querySelector('#likeIcon');
-
+likeIconElem.addEventListener('click', function () {
+    var iboard = cmtListElem.dataset.iboard;
+    var param = {
+        iboard: iboard
+    }
+    if(likeIconElem.classList.contains('far')) {
+        slapLikeAjax(param);
+    } else {
+        undoLikeAjax(param);
+    }
+});
 
 function regCmt() {
     var cmtVal = cmtFrmElem.cmt.value;
@@ -106,7 +116,12 @@ function makeCmtElemList(data) {
         var tdElemRegdt = document.createElement('td');
         var tdElemBigo = document.createElement('td');
         var imgElemProfileImg = document.createElement('img');
-        imgElemProfileImg.src = '${img}';
+        if(item.profileImg == null) {
+            imgElemProfileImg.src = '/res/img/defaultprofile.jpg';
+        } else {
+            imgElemProfileImg.src = '/img/user/' + item.iuser + '/' + item.profileImg;
+        }
+
         imgElemProfileImg.className = 'profileImg';
 
         tdElemCmt.append(item.cmt);
@@ -141,7 +156,7 @@ function makeCmtElemList(data) {
         trElemItem.append(tdElemUnm);
         trElemItem.append(tdElemRegdt);
         trElemItem.append(tdElemBigo);
-        tdElemUnm.append(imgElemProfileImg);
+        tdElemUnm.prepend(imgElemProfileImg);
 
         tableElem.append(trElemItem);
     })
@@ -212,34 +227,20 @@ function modAjax() {
 
 getListAjax(); // 이 파일이 임포트 되면 함수 1회 호출
 getLikeAjax();
-likeIconElem.addEventListener('click', function () {
-    var iboard = cmtListElem.dataset.iboard;
-    var param = {
-        iboard
-    }
-    if(likeIconElem.classList.contains('far')) {
-        slapLikeAjax(param);
-    } else {
-        undoLikeAjax(param);
-    }
-})
+
 
 // 좋아요 싫어요 작업중..
 function getLikeAjax() {
     var iboard = cmtListElem.dataset.iboard;
-    fetch("like?iboard=" + iboard)
+    if(cmtListElem.dataset.loginUserPk == 0) {
+        likeIconElem.classList.add('displayNone');
+    }else {
+        likeIconElem.classList.remove('displayNone');
+    }
+    fetch("like/" + iboard)
         .then(function (res) { return res.json();})
         .then(function (myjson) {
-            switch (myjson.result) {
-                case 0:
-                    likeIconElem.classList.remove('fas');
-                    likeIconElem.classList.add('far');
-                    break;
-                case 1:
-                    likeIconElem.classList.remove('far');
-                    likeIconElem.classList.add('fas');
-                    break;
-            }
+            toggleLike(myjson.result);
         })
 }
 
@@ -247,21 +248,11 @@ function toggleLike(toggle) {
     if(toggle == 0) {
         likeIconElem.classList.remove('fas');
         likeIconElem.classList.add('far');
+        /* likeIconElem.classList.toggle('far'); far가 있으면 빼주고 없으면 넣어준다. */
     }else if(toggle == 1) {
         likeIconElem.classList.remove('far');
         likeIconElem.classList.add('fas');
     }
-}
-
-
-
-function slapLike(iboard) {
-    var loginUserPk = cmtListElem.dataset.login_user_pk;
-    var param = {
-        iboard,
-        loginUserPk
-    }
-    slapLikeAjax(param);
 }
 
 function slapLikeAjax(param) {
@@ -272,7 +263,7 @@ function slapLikeAjax(param) {
             'accept':'application/json',
             'content-type':'application/json;charset=UTF-8'
         }
-    }
+    };
     fetch("like", init)
         .then(function (res) { return res.json()})
         .then(function (myjson) {
@@ -282,10 +273,9 @@ function slapLikeAjax(param) {
                     break;
                 case 1:
                     toggleLike(1);
-                    getLikeAjax();
                     break;
             }
-        })
+        });
 }
 
 function undoLikeAjax(param) {
@@ -293,19 +283,20 @@ function undoLikeAjax(param) {
         method: 'DELETE',
         body: JSON.stringify(param),
         headers: {
+            'accept':'application/json',
             'content-type':'application/json;charset=UTF-8'
         }
-    }
+    };
     fetch('like', init)
         .then(function (res) { return res.json()})
         .then(function (myjson) {
             switch (myjson.result) {
                 case 0:
+                    alert('오류 발생');
                     break;
                 case 1:
                     toggleLike(0);
-                    getLikeAjax();
                     break;
             }
-        })
+        });
 }

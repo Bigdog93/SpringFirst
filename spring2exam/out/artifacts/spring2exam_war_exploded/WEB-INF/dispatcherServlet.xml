@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!-- This tag registers the DefaultAnnotationHandlerMapping and
+         AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
+    <!-- MVC 패턴 사용하고 싶으면... 즉, @Controller 애노테이션을 사용하고 싶으면 적어줘야 함 -->
+    <mvc:annotation-driven/>
+
+    <!-- This tag allows for mapping the DispatcherServlet to "/" -->
+    <mvc:default-servlet-handler/>
+
+    <!-- Process annotations on registered beans like @Autowired... -->
+    <!-- 애노테이션 사용하고 싶으면 -->
+    <context:annotation-config/>
+
+    <!-- 애노테이션으로 빈 등록할 클래스들을 스캔 뜨는 시작 패키지를 설정 -->
+    <context:component-scan base-package="com.koreait.spring2"/>
+
+    <!-- /res/ 의 주소로 들어오는 애는 dispatcher 가 안잡고 /res/폴더로 넘어가준다. -->
+    <mvc:resources mapping="/res/**" location="/res/"/> <!-- main/resources 는 스프링이 쓰는 애, 얘는 클라이언트가 쓰는 애 -->
+
+    <!-- 사용할 파일명을 완성해주는 객체, prefix: 앞쪽에 , suffix: 뒤쪽에-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- Jackson Bean 등록 -->
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+</beans>

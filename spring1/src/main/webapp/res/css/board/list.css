@@ -16,3 +16,8 @@ img {
 	width: 200px;
 	height: 200px;
 }
+
+.selected {
+	color: #01023e;
+	font-weight: bold;
+}

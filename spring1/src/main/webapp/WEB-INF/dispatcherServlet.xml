@@ -30,6 +30,17 @@
     <!-- /img/ 로 접근하는 애들을 실제 파일 경로로 mapping 해준다. -->
     <mvc:resources mapping="/img/**" location="file:///C:/SpringRes/"/>
 
+    <!-- 인터셉터 설정 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--<mvc:mapping path="/**/"/>--> <!-- /**/ 모든 주소 -->
+            <mvc:mapping path="/board/write"/>
+            <mvc:mapping path="/board/likeList"/>
+            <mvc:mapping path="/user/profile"/>
+            <bean class="com.koreait.spring.AuthCheckInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 사용할 파일명을 완성해주는 객체, prefix: 앞쪽에 , suffix: 뒤쪽에-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+// Server Side 렌더링 : 서버에서 렌더링을 다 한 후(화면을 다 만든 후) 클라이언트에 전송
 @RequestMapping("/board")
 public class BoardController {
 
@@ -21,9 +22,13 @@ public class BoardController {
     private MyUtils myUtils;
 
     @RequestMapping("/list")
-    public String list(Model model) {
-        List<BoardDomain> list = service.selBoardList();
+    public String list(BoardDTO param, Model model) {
+        param.setIuser(myUtils.getLoginUserPk());
+        List<BoardDomain> list = service.selBoardList(param);
+        int maxPage = service.selMaxPage(param);
         model.addAttribute("list", list);
+        model.addAttribute("maxPage", maxPage);
+        model.addAttribute("cPage", param);
         myUtils.setTitle("주's 게시판", model);
         return "board/list";
     }
@@ -96,5 +101,10 @@ public class BoardController {
     public String delBoard(BoardEntity param) {
         service.delBoard(param);
         return "redirect:/board/list";
+    }
+
+    @GetMapping("/likeList")
+    public String likeList() {
+        return "board/likeList";
     }
 }
